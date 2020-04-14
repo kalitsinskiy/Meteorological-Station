@@ -50,24 +50,7 @@ const querySelectParser = (key, data) => {
 };
 
 
-app.get("/", (req, res) => {
-
-    const data = {
-        name: "МТ-19",
-        height: 13,
-        type: "переносна", //'капітальна', 'переносна', 'розбірна'
-        meteo_ground: "ММ-131",
-    };
-
-    const query = "INSERT INTO meteo_poles SET ?";
-
-    db.query(query, data, (err, response) => {
-        res.json(err ? err : response)
-    });
-
-
-    // db.query(query,(err, response) => res.json(err ? err : response));
-});
+app.get("/", (req, res) => res.json("It's meteo station API"));
 
 app.get("/access_req", (req, res) => {
     const pass = req.query.pass;
