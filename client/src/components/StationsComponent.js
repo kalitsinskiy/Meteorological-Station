@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import MaterialTable from 'material-table';
-import {isEqual, isEmpty, clone} from 'lodash';
+import {isEqual, isEmpty} from 'lodash';
 import {toastr} from 'react-redux-toastr';
 
 import queryOptionsParser from '../helpers/queryOptionsParser';
 
 const StationsComponent = (props) =>{
-    const [data, setData] = useState([]);
-
     const {
         stations,
         getData,
@@ -16,20 +14,17 @@ const StationsComponent = (props) =>{
         deleteData,
         setWizardNavigation,
         wizNav,
-        complexRequest
+        setStationsOptions
     } = props;
 
-    useEffect(() =>{setData(stations)},[stations]);
-
-    useEffect(() =>{
-        getData("meteo_stations", "METEO_STATIONS")
-    },[getData]);
+    useEffect(() => getData("meteo_stations", "METEO_STATIONS"),[getData]);
 
     const columns = [
         {
             title: 'Name',
             field: 'name',
-            filterPlaceholder: 'Enter name'
+            filterPlaceholder: 'Enter name',
+            editable: "onAdd"
         },
         {
             title: 'City',
@@ -87,31 +82,27 @@ const StationsComponent = (props) =>{
                 },
             ];
 
-            setWizardNavigation({
-                ...wizNav,
-                nextDisabled: false,
-                nextCallback: () => complexRequest(options, "GET_METEO_POSTS_AND_EMPLOYEES",
-                    setWizardNavigation({nextDisabled: false, nextHidden: false, prevDisabled: false, prevHidden: false}))
-            });
+            setStationsOptions(options);
+
+            setWizardNavigation({...wizNav, nextDisabled: false});
         }else {
+            setStationsOptions([]);
             setWizardNavigation({...wizNav, nextDisabled: true, nextCallback: null, prevCallback: null})
         }
     };
 
     const onRowClick = (e, it) =>{
-        const stations = clone(data);
         const index = stations.indexOf(it);
         stations[index].tableData.checked = !stations[index].tableData.checked;
-        setData(stations);
 
-        onSelectionChange(data.filter(it => it.tableData.checked))
+        onSelectionChange(stations.filter(it => it.tableData.checked))
     };
 
     return (
         <MaterialTable
             title="Meteo Stations"
             columns={columns}
-            data={data}
+            data={stations}
             onRowClick={onRowClick}
             onSelectionChange={onSelectionChange}
             options={{

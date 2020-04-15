@@ -1,43 +1,46 @@
 import React, {Fragment} from 'react';
 import {connect} from "react-redux";
+import ReactTooltip from "react-tooltip";
+
+import Arrow from "./Arrow";
+
+import "../styles/Nav.sass";
+
 import {setWizardNavigation} from "../actions/filters";
 
 const Nav = ({wizNav, previousStep, nextStep}) => {
-    const {prevDisabled, prevHidden, nextDisabled, nextHidden, nextCallback, prevCallback} = wizNav;
+    const {prevDisabled, prevHidden, nextDisabled, nextHidden, nextMessage = null} = wizNav;
 
-    const next = () =>{
-        if (nextCallback && typeof nextCallback === "function"){
-            nextCallback();
-            setWizardNavigation({...wizNav, nextCallback: null});
-        }
-        nextStep()
-    };
-
-    const prev = () =>{
-        if (prevCallback && typeof prevCallback === "function"){
-            prevCallback();
-            setWizardNavigation({...wizNav, prevCallback: null});
-        }
-
-        previousStep()
-    };
-
+    const isHidden = () => ["employees", "transport", "indicators"].some(it => it === wizNav.location);
 
     return (
         <Fragment>
             <button
                 className={`step prev ${prevHidden ? "hidden" : ""}`}
-                disabled={prevDisabled}
-                onClick={prev}>
-                Previous Step
+                onClick={() => !prevDisabled && previousStep()}
+            >
+                <Arrow rotated isDisabled={prevDisabled}/>
             </button>
 
             <button
-                className={`step next ${nextHidden ? "hidden" : ""}`}
-                disabled={nextDisabled}
-                onClick={next}>
-                Next Step
+                data-tip
+                data-tip-disable={false}
+                data-for='next_tooltip'
+                className={`step next ${nextHidden || isHidden() ? "hidden" : ""} ${nextDisabled ? "disabled" : ""}`}
+                onClick={() => !nextDisabled && nextStep()}
+            >
+                <Arrow isDisabled={nextDisabled}/>
             </button>
+
+            <ReactTooltip
+                id='next_tooltip'
+                type='info'
+                className={`tooltip ${!nextDisabled || isHidden() || nextHidden  ? "hidden" : ""}`}
+                place="top"
+                backgroundColor="#f50057">
+                <span>{nextMessage}</span>
+            </ReactTooltip>
+
         </Fragment>
     );
 };

@@ -3,45 +3,46 @@ import MaterialTable from 'material-table';
 import {isEqual} from 'lodash';
 import {toastr} from 'react-redux-toastr';
 
-const EmployeesComponent = (props) =>{
+const IndicatorsComponent = (props) =>{
     const {
-        employees,
+        indicators,
         createData,
         editData,
-        deleteData
+        deleteData,
     } = props;
 
     const columns = [
         {
-            title: 'Full name',
-            field: 'full_name',
-            filterPlaceholder: 'Enter name',
+            title: 'Value',
+            field: 'value',
+            filterPlaceholder: 'Enter value'
+        },
+        {
+            title: 'Device',
+            field: 'device',
+            filterPlaceholder: 'Enter device'
+        },
+        {
+            title: 'Type',
+            field: 'type',
+            lookup: {
+                "термометр": "термометр",
+                "барометр": "барометр",
+                "гігрометр": "гігрометр",
+                "флюгер": "флюгер",
+                "опадомір": "опадомір"
+            }
+        },
+        {
+            title: 'Timestamp',
+            field: 'timestamp',
+            type: "datetime",
             editable: "onAdd"
-        },
-        {
-            title: 'Birth',
-            field: 'birth_date',
-            filterPlaceholder: 'Enter birth',
-            type: "date"
-        },
-        {
-            title: 'Position',
-            field: 'position',
-            filterPlaceholder: 'Enter position'
-        },
-        {
-            title: 'Meteo post',
-            field: 'meteo_post',
-        },
-        {
-            title: 'Meteo station',
-            field: 'meteo_station',
-            filterPlaceholder: 'Enter meteo post'
-        },
+        }
     ];
 
-    const validateData = ({full_name, birth_date, position, meteo_post, meteo_station}, callback = null, fallback = null) => {
-        if (full_name && birth_date && position && meteo_post && meteo_station){
+    const validateData = ({value, device, type, timestamp}, callback = null, fallback = null) => {
+        if (value && device && type && timestamp){
             callback();
         } else {
             toastr.info("Attention", "All field must be field in");
@@ -49,12 +50,11 @@ const EmployeesComponent = (props) =>{
         }
     };
 
-
     return (
         <MaterialTable
-            title="Employees"
+            title="Indicators"
             columns={columns}
-            data={employees}
+            data={indicators}
             options={{
                 pageSize: 10,
                 pageSizeOptions: [5, 10, /*20*/],
@@ -66,9 +66,8 @@ const EmployeesComponent = (props) =>{
             editable={{
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
-                        console.log(newData);
                         validateData(newData, () =>{
-                            createData({table:"meteo_posts"}, newData, "METEO_POSTS");
+                            createData({table:"indicators"}, newData, "INDICATOR");
                             resolve();
                         }, reject)
                     }),
@@ -78,14 +77,14 @@ const EmployeesComponent = (props) =>{
                             reject();
                         }else {
                             validateData(newData, () =>{
-                                editData({table: "meteo_posts", key: "name"}, newData, "METEO_POSTS");
+                                editData({table: "indicators", key: "timestamp"}, newData, "INDICATOR");
                                 resolve()
                             }, reject)
                         }
                     }),
                 onRowDelete: data =>
                     new Promise(resolve => {
-                        deleteData({table:"meteo_posts", key:"name", value: data.name}, "METEO_POSTS");
+                        deleteData({table:"indicators", key:"timestamp", value: data.name}, "INDICATOR");
                         resolve();
                     }),
             }}
@@ -94,4 +93,4 @@ const EmployeesComponent = (props) =>{
 };
 
 
-export default EmployeesComponent
+export default IndicatorsComponent

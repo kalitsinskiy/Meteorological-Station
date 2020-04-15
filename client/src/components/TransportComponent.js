@@ -3,9 +3,9 @@ import MaterialTable from 'material-table';
 import {isEqual} from 'lodash';
 import {toastr} from 'react-redux-toastr';
 
-const EmployeesComponent = (props) =>{
+const TransportComponent = (props) =>{
     const {
-        employees,
+        transport,
         createData,
         editData,
         deleteData
@@ -13,35 +13,45 @@ const EmployeesComponent = (props) =>{
 
     const columns = [
         {
-            title: 'Full name',
-            field: 'full_name',
-            filterPlaceholder: 'Enter name',
+            title: 'Name',
+            field: 'name',
+            filterPlaceholder: 'Enter name'
+        },
+        {
+            title: 'Number',
+            field: 'number',
+            filterPlaceholder: 'Enter number',
             editable: "onAdd"
         },
         {
-            title: 'Birth',
-            field: 'birth_date',
-            filterPlaceholder: 'Enter birth',
-            type: "date"
+            title: 'Driver',
+            field: 'driver',
+            filterPlaceholder: 'Enter driver'
         },
         {
-            title: 'Position',
-            field: 'position',
-            filterPlaceholder: 'Enter position'
+            title: 'Type',
+            field: 'type',
+            lookup: {
+                "гелікоптер": "гелікоптер",
+                "позашляховик": "позашляховик",
+                "легковий автомобіль": "легковий автомобіль",
+                "квадроцикл": "квадроцикл",
+                "снігохід": "снігохід"
+            }
         },
         {
             title: 'Meteo post',
             field: 'meteo_post',
         },
         {
-            title: 'Meteo station',
-            field: 'meteo_station',
-            filterPlaceholder: 'Enter meteo post'
+            title: 'Inspection date',
+            field: 'inspection_date',
+            type: "date"
         },
     ];
 
-    const validateData = ({full_name, birth_date, position, meteo_post, meteo_station}, callback = null, fallback = null) => {
-        if (full_name && birth_date && position && meteo_post && meteo_station){
+    const validateData = ({name, number,  type, meteo_post, driver, inspection_date}, callback = null, fallback = null) => {
+        if (name && number && type && meteo_post && driver && inspection_date){
             callback();
         } else {
             toastr.info("Attention", "All field must be field in");
@@ -52,9 +62,9 @@ const EmployeesComponent = (props) =>{
 
     return (
         <MaterialTable
-            title="Employees"
+            title="Transport"
             columns={columns}
-            data={employees}
+            data={transport}
             options={{
                 pageSize: 10,
                 pageSizeOptions: [5, 10, /*20*/],
@@ -66,9 +76,8 @@ const EmployeesComponent = (props) =>{
             editable={{
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
-                        console.log(newData);
                         validateData(newData, () =>{
-                            createData({table:"meteo_posts"}, newData, "METEO_POSTS");
+                            createData({table:"transport"}, newData, "TRANSPORT");
                             resolve();
                         }, reject)
                     }),
@@ -78,14 +87,14 @@ const EmployeesComponent = (props) =>{
                             reject();
                         }else {
                             validateData(newData, () =>{
-                                editData({table: "meteo_posts", key: "name"}, newData, "METEO_POSTS");
+                                editData({table: "transport", key: "number"}, newData, "TRANSPORT");
                                 resolve()
                             }, reject)
                         }
                     }),
                 onRowDelete: data =>
                     new Promise(resolve => {
-                        deleteData({table:"meteo_posts", key:"name", value: data.name}, "METEO_POSTS");
+                        deleteData({table:"transport", key:"number", value: data.name}, "TRANSPORT");
                         resolve();
                     }),
             }}
@@ -94,4 +103,4 @@ const EmployeesComponent = (props) =>{
 };
 
 
-export default EmployeesComponent
+export default TransportComponent

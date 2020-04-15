@@ -1,23 +1,23 @@
 const defaultState = [];
 
-const stations = (state = defaultState, action) =>{
+const indicators = (state = defaultState, action) =>{
     switch (action.type) {
-        case 'GET_METEO_STATIONS_FULFILLED': {
+        case 'GET_INDICATORS_FULFILLED': {
             return action.payload
         }
-        case 'CREATE_METEO_STATION_FULFILLED': {
+        case 'CREATE_INDICATOR_FULFILLED': {
             return action.payload ? [...state, action.payload] : state
         }
-        case 'EDIT_METEO_STATION_FULFILLED': {
+        case 'EDIT_INDICATOR_FULFILLED': {
             return action.payload ? state.map(item => {
-                if (item.name === action.payload.name) {
+                if (item.timestamp === action.payload.timestamp) {
                     return Object.assign({}, item, action.payload)
                 }
                 return item;
             }) : state
         }
-        case 'DELETE_METEO_STATION_FULFILLED': {
-            return action.payload ? state.filter(item => action.payload.name !== item.name) : state
+        case 'DELETE_INDICATOR_FULFILLED': {
+            return action.payload ? state.filter(item => action.payload.timestamp !== item.timestamp) : state
         }
 
         default:
@@ -25,4 +25,4 @@ const stations = (state = defaultState, action) =>{
     }
 };
 
-export default  stations
+export default indicators

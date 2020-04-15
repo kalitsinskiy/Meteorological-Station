@@ -1,12 +1,12 @@
 import {connect} from 'react-redux';
-import MeteoPostsComponent from '../components/MeteoPostsComponent';
+import DevicesComponent from '../components/DevicesComponent';
 import {createData, editData, deleteData} from "../actions/apiRequests";
 import {setWizardNavigation} from "../actions/filters";
 
 
-const mapStateToProps = ({meteoposts, filters}) => {
+const mapStateToProps = ({devices, filters}) => {
     return {
-        meteoposts,
+        devices,
         wizNav: filters.wizNav
     }
 };
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
         setWizardNavigation: obj => dispatch(setWizardNavigation(obj)),
     }
 };
-const MeteoPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MeteoPostsComponent);
+const DevicesContainer = connect(mapStateToProps, mapDispatchToProps)(DevicesComponent);
 
 
-export default MeteoPostsContainer;
+export default DevicesContainer;

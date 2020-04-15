@@ -2,17 +2,16 @@ import React from 'react';
 import MaterialTable from 'material-table';
 import {isEqual, isEmpty} from 'lodash';
 import {toastr} from 'react-redux-toastr';
-import queryOptionsParser from "../helpers/queryOptionsParser";
 
 const MeteoPostsComponent = (props) =>{
     const {
-        meteoposts,
+        devices,
         createData,
         editData,
         deleteData,
         setWizardNavigation,
         wizNav,
-        setMeteoPostsOptions
+        setDevicesOptions
     } = props;
 
     const columns = [
@@ -23,28 +22,35 @@ const MeteoPostsComponent = (props) =>{
             editable: "onAdd"
         },
         {
-            title: 'Chief',
-            field: 'chief',
-            filterPlaceholder: 'Enter chief'
+            title: 'Type',
+            field: 'type',
+            lookup: {
+                "термометр": "термометр",
+                "барометр": "барометр",
+                "гігрометр": "гігрометр",
+                "флюгер": "флюгер",
+                "опадомір": "опадомір"
+            }
         },
         {
-            title: 'Transport',
-            field: 'transport',
-            filterPlaceholder: 'Enter transport'
+            title: 'Meteo pole',
+            field: 'meteo_pole',
+            filterPlaceholder: 'Enter meteo pole'
         },
         {
-            title: 'Meteo station',
-            field: 'meteo_station',
+            title: 'Installation date',
+            field: 'installation_date',
+            type: "date"
         },
         {
-            title: 'Time zone',
-            field: 'time_zone',
-            filterPlaceholder: 'Enter time zone'
+            title: 'Inspection frequency',
+            field: 'inspection_frequency',
+            filterPlaceholder: 'Enter inspection frequency'
         },
     ];
 
-    const validateData = ({name, chief, transport, meteo_station, time_zone}, callback = null, fallback = null) => {
-        if (name && chief && transport && meteo_station && time_zone){
+    const validateData = ({name, type, meteo_pole, installation_date, inspection_frequency}, callback = null, fallback = null) => {
+        if (name && type && meteo_pole && installation_date && inspection_frequency){
             callback();
         } else {
             toastr.info("Attention", "All field must be field in");
@@ -54,22 +60,11 @@ const MeteoPostsComponent = (props) =>{
 
     const onSelectionChange = (all) =>{
         if (!isEmpty(all)){
-            const postsNames = all.map(it => it.name).join();
+            const devicesNames = all.map(it => it.name).join();
 
-            const options = [
-                {
-                    name: "meteo_grounds",
-                    method: "get",
-                    type: `complex_selection${queryOptionsParser({table:"meteo_grounds", key:"meteo_post", values: postsNames})}`
-                },
-                {
-                    name: "transport",
-                    method: "get",
-                    type: `complex_selection${queryOptionsParser({table:"transport", key:"meteo_post", values: postsNames})}`
-                },
-            ];
+            const options = {table:"indicators", key:"device", values: devicesNames};
 
-            setMeteoPostsOptions(options);
+            setDevicesOptions(options);
             setWizardNavigation({...wizNav, nextDisabled: false});
         }else {
             setWizardNavigation({...wizNav, nextDisabled: true})
@@ -77,18 +72,18 @@ const MeteoPostsComponent = (props) =>{
     };
 
     const onRowClick = (e, it) =>{
-        const index = meteoposts.indexOf(it);
-        meteoposts[index].tableData.checked = !meteoposts[index].tableData.checked;
+        const index = devices.indexOf(it);
+        devices[index].tableData.checked = !devices[index].tableData.checked;
 
-        onSelectionChange(meteoposts.filter(it => it.tableData.checked))
+        onSelectionChange(devices.filter(it => it.tableData.checked))
     };
 
 
     return (
         <MaterialTable
-            title="Meteo Posts"
+            title="Devices"
             columns={columns}
-            data={meteoposts}
+            data={devices}
             onRowClick={onRowClick}
             onSelectionChange={onSelectionChange}
             options={{
@@ -103,9 +98,8 @@ const MeteoPostsComponent = (props) =>{
             editable={{
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
-                        console.log(newData);
                         validateData(newData, () =>{
-                            createData({table:"meteo_posts"}, newData, "METEO_POST");
+                            createData({table:"devices"}, newData, "DEVICE");
                             resolve();
                         }, reject)
                     }),
@@ -115,14 +109,14 @@ const MeteoPostsComponent = (props) =>{
                             reject();
                         }else {
                             validateData(newData, () =>{
-                                editData({table: "meteo_posts", key: "name"}, newData, "METEO_POST");
+                                editData({table: "devices", key: "name"}, newData, "DEVICE");
                                 resolve()
                             }, reject)
                         }
                     }),
                 onRowDelete: data =>
                     new Promise(resolve => {
-                        deleteData({table:"meteo_posts", key:"name", value: data.name}, "METEO_POST");
+                        deleteData({table:"devices", key:"name", value: data.name}, "DEVICE");
                         resolve();
                     }),
             }}

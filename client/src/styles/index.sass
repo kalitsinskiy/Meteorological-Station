@@ -49,17 +49,19 @@ body
         display: flex
         justify-content: center
         align-items: center
-        //div
-        //    width: 80%
-        .MuiPaper-root
-            width: 100%
-        .step
-            top: 50%
-            position: absolute
-            &.prev
-                left: 50px
-            &.next
-                right: 50px
-            &.hidden
-                display: none
 
+
+.flipper_links
+    width: 100%
+    display: flex
+    justify-content: space-evenly
+    .link
+        font-size: 2rem
+        color: #ffe2ec
+        cursor: pointer
+        transition: color 0.3s
+        &:hover
+            color: #FF0068
+        &.active
+            color: #f50057
+            cursor: default

@@ -1,11 +1,11 @@
 import {connect} from 'react-redux';
-import EmployeesComponent from '../components/EmployeesComponent';
+import IndicatorsComponent from '../components/IndicatorsComponent';
 import {createData, editData, deleteData} from "../actions/apiRequests";
 
 
-const mapStateToProps = ({employees}) => {
+const mapStateToProps = ({indicators}) => {
     return {
-        employees
+        indicators
     }
 };
 
@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
         deleteData: (options, type) => dispatch(deleteData(options, type))
     }
 };
-const EmployeesContainer = connect(mapStateToProps, mapDispatchToProps)(EmployeesComponent);
+const IndicatorsContainer = connect(mapStateToProps, mapDispatchToProps)(IndicatorsComponent);
 
 
-export default EmployeesContainer;
+export default IndicatorsContainer;

@@ -3,10 +3,12 @@ import Cookies from "js-cookie"
 const defaultState = {
     isDBAvailable: !!Cookies.getJSON("isDBAvailable"),
     wizNav:{
+        location: "meteo_stations",
         prevDisabled: true,
         prevHidden: true,
         nextDisabled: true,
         nextHidden: false,
+        nextMessage: "Choose some station"
     }
 };
 

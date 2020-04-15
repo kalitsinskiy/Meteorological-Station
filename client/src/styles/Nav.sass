@@ -1,0 +1,29 @@
+.step
+  top: 50%
+  position: absolute
+  background-repeat: no-repeat
+  background-size: 70px 70px
+  width: 70px
+  height: 70px
+  border: none !important
+  outline: none !important
+  background-color: transparent !important
+  transition: background-image 0.3s, opacity 0.3s
+  opacity: 1
+  &:hover
+    cursor: pointer
+  &.disabled
+    cursor: default
+  &.prev
+    left: 50px
+    transform: rotate(-180deg)
+  &.next
+    right: 50px
+  &.hidden
+    opacity: 0
+    pointer-events: none
+
+.tooltip
+  text-align: center
+  &.hidden
+    display: none

@@ -9,18 +9,18 @@ const employees = (state = defaultState, action) =>{
             return action.payload.employees
         }
         case 'CREATE_EMPLOYEES_FULFILLED': {
-            return action.payload ? [action.payload, ...state] : state
+            return action.payload ? [...state, action.payload] : state
         }
         case 'EDIT_EMPLOYEES_FULFILLED': {
             return action.payload ? state.map(item => {
-                if (item.name === action.payload.name) {
+                if (item.full_name === action.payload.full_name) {
                     return Object.assign({}, item, action.payload)
                 }
                 return item;
             }) : state
         }
         case 'DELETE_EMPLOYEES_FULFILLED': {
-            return action.payload ? state.filter(item => action.payload.name !== item.name) : state
+            return action.payload ? state.filter(item => action.payload.full_name !== item.full_name) : state
         }
 
         default:

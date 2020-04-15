@@ -1,17 +1,14 @@
 const defaultState = [];
 
-const meteoposts = (state = defaultState, action) =>{
+const devices = (state = defaultState, action) =>{
     switch (action.type) {
-        case 'GET_METEO_POSTS_FULFILLED': {
+        case 'GET_DEVICES_FULFILLED': {
             return action.payload
         }
-        case 'GET_METEO_POSTS_AND_EMPLOYEES_FULFILLED': {
-            return action.payload.meteo_posts
-        }
-        case 'CREATE_METEO_POST_FULFILLED': {
+        case 'CREATE_DEVICE_FULFILLED': {
             return action.payload ? [...state, action.payload] : state
         }
-        case 'EDIT_METEO_POST_FULFILLED': {
+        case 'EDIT_DEVICE_FULFILLED': {
             return action.payload ? state.map(item => {
                 if (item.name === action.payload.name) {
                     return Object.assign({}, item, action.payload)
@@ -19,7 +16,7 @@ const meteoposts = (state = defaultState, action) =>{
                 return item;
             }) : state
         }
-        case 'DELETE_METEO_POST_FULFILLED': {
+        case 'DELETE_DEVICE_FULFILLED': {
             return action.payload ? state.filter(item => action.payload.name !== item.name) : state
         }
 
@@ -28,4 +25,4 @@ const meteoposts = (state = defaultState, action) =>{
     }
 };
 
-export default meteoposts
+export default devices

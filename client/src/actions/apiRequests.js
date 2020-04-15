@@ -81,8 +81,14 @@ export const getData = (table, type) => {
     };
 };
 
-export const getComplexSelection = (options, type) => {
+export const getComplexSelection = (options, type, callback) => {
     const payload = apiCall("get", `complex_selection${queryOptionsParser(options)}`)
+        .then(res =>{
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
+            return res
+        })
         .catch((e) => {
             toastr.error("Error", e.toString());
             return []

@@ -2,7 +2,11 @@ const express = require("express");
 const mysql = require("mysql");
 const app = express();
 const cors = require('cors');
-const bodyPareser = require('body-parser');
+const bodyParser = require('body-parser');
+
+const reviveDates = require('./helpers/reviveDates');
+const queryParser = require('./helpers/queryParser');
+const querySelectParser = require('./helpers/querySelectParser');
 
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -15,9 +19,10 @@ const PORT = process.env.PORT || 5000;
 
 db.connect(err => console.log(err || "db has been connected"));
 
+
 app.use(cors());
-app.use(bodyPareser.json());
-app.use(bodyPareser.urlencoded({extended: true}));
+app.use(bodyParser.json({reviver: reviveDates}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 const tables = [
@@ -30,24 +35,6 @@ const tables = [
     'meteo_posts',
     'transport',
 ];
-
-const queryParser = data => {
-    let params = '';
-
-    for (let key in data) {
-        params += `${!params ? '' : ', '}${key}='${data[key]}'`
-    }
-
-    return params
-};
-
-const querySelectParser = (key, data) => {
-    let params = '';
-
-    data.forEach(it =>params += `${!params ? '' : ' OR '}${key}='${it}'`);
-
-    return params
-};
 
 
 app.get("/", (req, res) => res.json("It's meteo station API"));
@@ -79,7 +66,6 @@ app.get("/data", (req, res) => {
     });
 });
 
-
 app.post("/post", (req, res) => {
     const table = req.query.table;
     const query = `INSERT INTO ${table} SET ?`;
@@ -106,7 +92,6 @@ app.put("/edit", (req, res) => {
     });
 });
 
-
 app.delete("/delete", (req, res) => {
     const {table, key, value} = req.query;
     const query = `DELETE FROM ${table} WHERE ${queryParser({[key]: value})}`;
@@ -128,6 +113,28 @@ app.get("/complex_selection", (req, res) => {
     db.query(query,(err, response) => res.json(err ? err : response));
 
 });
+
+// app.get("/test", (req, res) => {
+//
+//     const data = {
+//         name: "ВАЗ2110",
+//         number: "АВ1368ФЕ",
+//         type: "легковий автомобіль",
+//         driver: "Мірошниченко Іван Федорович",
+//         inspection_date: new Date(),
+//         meteo_post: "ПТ-1"
+//     };
+//     const query = "INSERT INTO transport SET ?";
+//
+//     console.log(new Date())
+//
+//     db.query(query, data, (err, response) => {
+//         res.json(err ? err : response)
+//     });
+//
+//
+//     // db.query(query,(err, response) => res.json(err ? err : response));
+// });
 
 app.listen(PORT, () => console.log(`app has been started on ${PORT} port`));
 
@@ -254,6 +261,7 @@ app.listen(PORT, () => console.log(`app has been started on ${PORT} port`));
 //     "name TEXT, " +
 //     "type ENUM( 'гелікоптер', 'позашляховик', 'легковий автомобіль', 'квадроцикл', 'снігохід' ), " +
 //     "driver TEXT, " +
+//     "meteo_post TINYTEXT, " +
 //     "PRIMARY KEY (number(20))" +
 //     ")";
 
