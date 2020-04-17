@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, memo} from 'react';
 import MaterialTable from 'material-table';
 import {isEqual, isEmpty} from 'lodash';
 import {toastr} from 'react-redux-toastr';
@@ -14,7 +14,8 @@ const StationsComponent = (props) =>{
         deleteData,
         setWizardNavigation,
         wizNav,
-        setStationsOptions
+        setStationsOptions,
+        pageSize
     } = props;
 
     useEffect(() => getData("meteo_stations", "METEO_STATIONS"),[getData]);
@@ -106,8 +107,8 @@ const StationsComponent = (props) =>{
             onRowClick={onRowClick}
             onSelectionChange={onSelectionChange}
             options={{
-                pageSize: 10,
-                pageSizeOptions: [5, 10, /*20*/],
+                pageSize,
+                pageSizeOptions: [5, 8, 10],
                 toolbar: true,
                 paging: true,
                 actionsColumnIndex: -1,
@@ -117,7 +118,6 @@ const StationsComponent = (props) =>{
             editable={{
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
-                        console.log(newData);
                         validateData(newData, () =>{
                             createData({table:"meteo_stations"}, newData, "METEO_STATION");
                             resolve();
@@ -145,4 +145,4 @@ const StationsComponent = (props) =>{
 };
 
 
-export default StationsComponent
+export default memo(StationsComponent)

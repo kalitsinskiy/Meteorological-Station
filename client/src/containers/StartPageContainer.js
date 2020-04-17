@@ -1,22 +1,47 @@
-import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import StartPage from '../components/StartPage';
 import {login} from "../actions/apiRequests"
 
 
-const StartPageContainer = ({login}) =>{
+const StartPage = ({login}) =>{
+    const [pass, setPass] = useState("");
+
+    const handleLogin = (e) =>{
+        e.preventDefault();
+
+        if (pass.trim()){
+            login(pass);
+            setPass("");
+        }
+    };
+
     return (
-        <Switch>
-            <Route path="/db_auth" render={() => <StartPage login={login}/>}/>
-            <Redirect to="/db_auth"/>
-        </Switch>
+        <div className="start_page">
+            <div className="login">
+                <div className="logo_wrap">
+                    <p className="description">Enter DB password</p>
+
+                    <img src="/icons/glob.svg" alt="glob"/>
+                </div>
+
+                <form className="form" onSubmit={handleLogin}>
+                    <input
+                        className="input"
+                        type="password"
+                        onChange={e =>setPass(e.target.value)}
+                    />
+
+                    <button
+                        className="login_btn"
+                        type="submit"
+                    />
+                </form>
+            </div>
+        </div>
     )
 };
 
-const mapStateToProps = (state) => {
-    return {};
-};
+const mapStateToProps = () => {return {}};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -24,4 +49,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StartPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(StartPage);

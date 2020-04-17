@@ -1,32 +1,26 @@
 import React, {Fragment} from 'react'
 import {connect} from 'react-redux';
-import {Switch, Route} from 'react-router-dom'
 import ReduxToastr from 'react-redux-toastr'
 
-import BaseContainer from './containers/BaseContainer'
+import BaseComponent from './components/BaseComponent'
 import SpinnerContainer from './containers/SpinnerContainer'
 import StartPageContainer from './containers/StartPageContainer'
 
-const App = ({isDBAvailable}) => {
-  return (
-      <Switch>
-        <Route path="/" render={() => {
-          return (
-              <Fragment>
-                {isDBAvailable ? <BaseContainer/> : <StartPageContainer/>}
-                <SpinnerContainer/>
-                <ReduxToastr
-                    preventDuplicates
-                    timeOut={4000}
-                    transitionIn="fadeIn"
-                    transitionOut="fadeOut"
-                    closeOnToastrClick/>
-              </Fragment>
-          )
-        }}/>
-      </Switch>
-  )
-};
+const App = ({isDBAvailable}) => (
+    <Fragment>
+        {isDBAvailable ? <BaseComponent/> : <StartPageContainer/>}
+
+        <SpinnerContainer/>
+
+        <ReduxToastr
+            preventDuplicates
+            timeOut={4000}
+            transitionIn="fadeIn"
+            transitionOut="fadeOut"
+            closeOnToastrClick/>
+    </Fragment>
+
+);
 
 
 const mapStateToProps = (state) => {

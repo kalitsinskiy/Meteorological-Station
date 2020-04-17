@@ -25,16 +25,7 @@ app.use(bodyParser.json({reviver: reviveDates}));
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-const tables = [
-    'meteo_stations',
-    'meteo_grounds',
-    'meteo_poles',
-    'employees',
-    'devices',
-    'indicators',
-    'meteo_posts',
-    'transport',
-];
+const tables = ['meteo_stations', 'meteo_grounds', 'meteo_poles', 'employees', 'devices', 'indicators', 'meteo_posts', 'transport'];
 
 
 app.get("/", (req, res) => res.json("It's meteo station API"));
@@ -83,7 +74,7 @@ app.put("/edit", (req, res) => {
     const {key, table} = req.query;
     const query = `UPDATE ${table} SET ${queryParser(req.body)} WHERE ${queryParser({[key]: req.body[key]})}`;
 
-    db.query(query, req.body, err => {
+    db.query(query, err => {
         if (err){
             res.status(400).json(err)
         } else {
@@ -96,7 +87,7 @@ app.delete("/delete", (req, res) => {
     const {table, key, value} = req.query;
     const query = `DELETE FROM ${table} WHERE ${queryParser({[key]: value})}`;
 
-    db.query(query, req.body, err => {
+    db.query(query, err => {
         if (err){
             res.status(400).json(err)
         } else {
@@ -114,27 +105,7 @@ app.get("/complex_selection", (req, res) => {
 
 });
 
-// app.get("/test", (req, res) => {
-//
-//     const data = {
-//         name: "ВАЗ2110",
-//         number: "АВ1368ФЕ",
-//         type: "легковий автомобіль",
-//         driver: "Мірошниченко Іван Федорович",
-//         inspection_date: new Date(),
-//         meteo_post: "ПТ-1"
-//     };
-//     const query = "INSERT INTO transport SET ?";
-//
-//     console.log(new Date())
-//
-//     db.query(query, data, (err, response) => {
-//         res.json(err ? err : response)
-//     });
-//
-//
-//     // db.query(query,(err, response) => res.json(err ? err : response));
-// });
+app.get("/custom_request", (req, res) => db.query(req.query.query,(err, response) => res.json(err ? err : response)));
 
 app.listen(PORT, () => console.log(`app has been started on ${PORT} port`));
 

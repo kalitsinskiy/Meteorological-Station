@@ -7,7 +7,8 @@ import {setWizardNavigation} from "../actions/filters";
 const mapStateToProps = ({stations, filters}) => {
     return {
         stations,
-        wizNav: filters.wizNav
+        wizNav: filters.wizNav,
+        pageSize: filters.pageSize
     }
 };
 

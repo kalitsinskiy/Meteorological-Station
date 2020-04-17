@@ -3,9 +3,11 @@ import IndicatorsComponent from '../components/IndicatorsComponent';
 import {createData, editData, deleteData} from "../actions/apiRequests";
 
 
-const mapStateToProps = ({indicators}) => {
+const mapStateToProps = ({indicators, devices, filters}) => {
     return {
-        indicators
+        indicators,
+        devices,
+        pageSize: filters.pageSize
     }
 };
 

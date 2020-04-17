@@ -1,18 +1,21 @@
-import React from 'react';
+import React, {memo} from 'react';
 import MaterialTable from 'material-table';
 import {isEqual, isEmpty} from 'lodash';
 import {toastr} from 'react-redux-toastr';
 import queryOptionsParser from "../helpers/queryOptionsParser";
+import arrayToObject from "../helpers/arrayToObject";
 
 const MeteoPostsComponent = (props) =>{
     const {
         meteoposts,
+        stations,
         createData,
         editData,
         deleteData,
         setWizardNavigation,
         wizNav,
-        setMeteoPostsOptions
+        setMeteoPostsOptions,
+        pageSize
     } = props;
 
     const columns = [
@@ -35,6 +38,7 @@ const MeteoPostsComponent = (props) =>{
         {
             title: 'Meteo station',
             field: 'meteo_station',
+            lookup: isEmpty(stations) ? {} : arrayToObject(stations, "name"),
         },
         {
             title: 'Time zone',
@@ -92,8 +96,8 @@ const MeteoPostsComponent = (props) =>{
             onRowClick={onRowClick}
             onSelectionChange={onSelectionChange}
             options={{
-                pageSize: 10,
-                pageSizeOptions: [5, 10, /*20*/],
+                pageSize,
+                pageSizeOptions: [5, 8, 10],
                 toolbar: true,
                 paging: true,
                 actionsColumnIndex: -1,
@@ -103,7 +107,6 @@ const MeteoPostsComponent = (props) =>{
             editable={{
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
-                        console.log(newData);
                         validateData(newData, () =>{
                             createData({table:"meteo_posts"}, newData, "METEO_POST");
                             resolve();
@@ -131,4 +134,4 @@ const MeteoPostsComponent = (props) =>{
 };
 
 
-export default MeteoPostsComponent
+export default memo(MeteoPostsComponent)

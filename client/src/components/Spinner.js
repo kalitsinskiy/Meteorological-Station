@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {toastr} from "react-redux-toastr";
 import { ClipLoader } from 'react-spinners';
 
-import "../styles/Spinner.sass"
-
 class Spinner extends Component{
     constructor(props){
         super(props);
@@ -41,7 +39,7 @@ class Spinner extends Component{
                     <ClipLoader
                         sizeUnit={"px"}
                         size={150}
-                        color={'#201158'}
+                        color={'#FF0068'}
                         loading={show > 0}
                     />
 

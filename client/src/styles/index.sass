@@ -1,67 +1,122 @@
-
 body
     margin: 0
     font-family: Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
 
-.pink
-    color: #E010D0 !important
-    border-color: #E010D0 !important
-.blue
-    color: #5890E1 !important
-    border-color: #5890E1 !important
-.green
-    color: #397E6F !important
-    border-color: #397E6F !important
-.yellow
-    color: #F5A623 !important
-    border-color: #F5A623 !important
-.purple
-    color: #9013FE !important
-    border-color: #9013FE !important
-.dark
-    color: #707070 !important
-    border-color: #707070 !important
-.girl-pink
-    background-color: #E575A3
-.female-blue
-    background-color: #5DB2E3
-.male-blue
-    background-color: #004978
-.returns
-    background-color: #A9A9A9
-.bg-g
-    background-color: #2E8270 !important
-.bg-c
-    background-color: #8AC4A4 !important
-.bg-b
-    background-color: #50E3C2 !important
-.bg-w
-    background-color: #DCDCDC !important
+header.header
+    width: 100%
+    height: 7vh
+    background-color: #f50057
+    position: fixed
+    top: 0
+    z-index: 90
+    display: flex
+    justify-content: space-between
+    .logo
+        display: flex
+        margin: 10px
+        width: 20%
+        height: auto
+        cursor: pointer
+        img
+            height: 100%
+    .exit_wrapper
+        margin-right: 25px
+        display: flex
+        align-items: center
+        .exit
+            color: #ffffff
+            font-size: 1.2rem
+            cursor: pointer
 
 .main-wrapper
     display: flex
     justify-content: center
     align-items: center
-    min-height: 100vh
-    position: relative
-    .wizard
-        width: 100%
-        display: flex
-        justify-content: center
-        align-items: center
+    min-height: calc(100vh - 7vh - 30px)
+    margin-top: 7vh
+    flex-direction: column-reverse
+    .rsw_2Y
+        width: 75%
+        margin-top: 20px
 
 
-.flipper_links
+.start_page
     width: 100%
+    height: 100vh
     display: flex
-    justify-content: space-evenly
-    .link
-        font-size: 2rem
-        color: #ffe2ec
-        cursor: pointer
-        transition: color 0.3s
+    justify-content: center
+    align-items: center
+    .login
+        width: 25%
+        background-color: #FF0068
+        border-radius: 30px
+        padding: 40px 20px
+        .logo_wrap
+            display: flex
+            justify-content: space-evenly
+            align-items: flex-end
+            margin-bottom: 20px
+            .description
+                font-size: 2rem
+                margin: 0 0 20px 0
+                color: #ffffff
+        .form
+            display: flex
+            position: relative
+            .login_btn
+                position: absolute
+                right: 5px
+                width: 40px
+                padding: 0
+                height: 100%
+                outline: none !important
+                border: none !important
+                background-color: transparent !important
+                background-size: 30px 30px
+                background-image: url('/icons/next.svg')
+                background-repeat: no-repeat
+                background-position: 50% 50%
+                transition: 0.2s transform
+                &:hover
+                    transform: scale(1.05)
+                    cursor: pointer
+            .input
+                padding-right: 40px
+                height: 40px
+                width: 100%
+                font-size: 2rem
+                color: #FF0068
+                display: block
+                border: none !important
+                outline: none !important
+
+
+.dimScreen
+    display: flex
+    justify-content: center
+    align-items: center
+    position: fixed
+    padding: 0
+    margin: 0
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: rgba(0, 0, 0, 0.2)
+    z-index: 1000
+.dimScreen.disabled
+    display: none
+
+footer.footer
+    display: flex
+    align-items: center
+    height: 30px
+    font-size: 0.9rem
+    padding: 0 20px
+    a
+        color: #000
+        text-decoration: none
+        transition: 0.2s color
         &:hover
             color: #FF0068
-        &.active
-            color: #f50057
-            cursor: default
+            cursor: pointer

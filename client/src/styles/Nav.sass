@@ -8,17 +8,16 @@
   border: none !important
   outline: none !important
   background-color: transparent !important
-  transition: background-image 0.3s, opacity 0.3s
   opacity: 1
   &:hover
     cursor: pointer
   &.disabled
     cursor: default
   &.prev
-    left: 50px
+    left: 2%
     transform: rotate(-180deg)
   &.next
-    right: 50px
+    right: 2%
   &.hidden
     opacity: 0
     pointer-events: none
@@ -27,3 +26,30 @@
   text-align: center
   &.hidden
     display: none
+
+
+.footer_nav
+  margin-top: 30px
+  bottom: 0
+  display: flex
+  .footer_link
+    margin: 0 10px
+    color: #FF0068
+    border: none !important
+    outline: none !important
+    background: none !important
+    font-size: 1rem
+    position: relative
+    &:before
+      content: ">"
+      position: absolute
+      left: -15px
+    &:first-child
+      &:before
+        content: none
+    &:hover
+      color: #f50057
+      cursor: pointer
+    &:disabled
+      color: #ffe2ec
+      cursor: default

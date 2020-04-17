@@ -4,10 +4,12 @@ import {createData, editData, deleteData} from "../actions/apiRequests";
 import {setWizardNavigation} from "../actions/filters";
 
 
-const mapStateToProps = ({devices, filters}) => {
+const mapStateToProps = ({devices, meteopoles, filters}) => {
     return {
         devices,
-        wizNav: filters.wizNav
+        meteopoles,
+        wizNav: filters.wizNav,
+        pageSize: filters.pageSize
     }
 };
 

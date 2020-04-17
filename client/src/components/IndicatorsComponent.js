@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {memo} from 'react';
 import MaterialTable from 'material-table';
-import {isEqual} from 'lodash';
+import {isEmpty, isEqual} from 'lodash';
 import {toastr} from 'react-redux-toastr';
+import arrayToObject from "../helpers/arrayToObject";
 
 const IndicatorsComponent = (props) =>{
     const {
         indicators,
+        devices,
         createData,
         editData,
         deleteData,
+        pageSize
     } = props;
 
     const columns = [
@@ -20,7 +23,8 @@ const IndicatorsComponent = (props) =>{
         {
             title: 'Device',
             field: 'device',
-            filterPlaceholder: 'Enter device'
+            lookup: isEmpty(devices) ? {} : arrayToObject(devices, "name"),
+            editable: "onAdd"
         },
         {
             title: 'Type',
@@ -56,8 +60,8 @@ const IndicatorsComponent = (props) =>{
             columns={columns}
             data={indicators}
             options={{
-                pageSize: 10,
-                pageSizeOptions: [5, 10, /*20*/],
+                pageSize,
+                pageSizeOptions: [5, 8, 10],
                 toolbar: true,
                 paging: true,
                 actionsColumnIndex: -1,
@@ -84,7 +88,7 @@ const IndicatorsComponent = (props) =>{
                     }),
                 onRowDelete: data =>
                     new Promise(resolve => {
-                        deleteData({table:"indicators", key:"timestamp", value: data.name}, "INDICATOR");
+                        deleteData({table:"indicators", key:"timestamp", value: data.timestamp}, "INDICATOR");
                         resolve();
                     }),
             }}
@@ -93,4 +97,4 @@ const IndicatorsComponent = (props) =>{
 };
 
 
-export default IndicatorsComponent
+export default memo(IndicatorsComponent)

@@ -1,14 +1,17 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import {isEqual} from 'lodash';
+import {isEmpty, isEqual} from 'lodash';
 import {toastr} from 'react-redux-toastr';
+import arrayToObject from "../helpers/arrayToObject";
 
 const TransportComponent = (props) =>{
     const {
         transport,
+        meteoposts,
         createData,
         editData,
-        deleteData
+        deleteData,
+        pageSize
     } = props;
 
     const columns = [
@@ -42,6 +45,7 @@ const TransportComponent = (props) =>{
         {
             title: 'Meteo post',
             field: 'meteo_post',
+            lookup: isEmpty(meteoposts) ? {} : arrayToObject(meteoposts, "name"),
         },
         {
             title: 'Inspection date',
@@ -66,8 +70,8 @@ const TransportComponent = (props) =>{
             columns={columns}
             data={transport}
             options={{
-                pageSize: 10,
-                pageSizeOptions: [5, 10, /*20*/],
+                pageSize,
+                pageSizeOptions: [5, 8, 10],
                 toolbar: true,
                 paging: true,
                 actionsColumnIndex: -1,

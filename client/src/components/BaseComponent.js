@@ -1,27 +1,21 @@
-import React, {Component} from 'react';
-import {Route, Switch, Redirect} from 'react-router-dom';
+import React from 'react';
 
-import Meteoboard from '../components/Meteoboard'
 import ErrorBoundary from "./ErrorBoundary";
+import Header from './Header'
+import Meteoboard from './Meteoboard'
+import Footer from './Footer'
+import Console from './Console'
 
-class BaseComponent extends Component {
+const BaseComponent = () => (
+    <ErrorBoundary>
+        <Header/>
 
-    render() {
-        return (
-            <div className="main-wrapper">
-                {/*<LeftSidebarContainer/>*/}
+        <Meteoboard/>
 
-                    {/*<HeaderContainer/>*/}
-                    <ErrorBoundary>
-                        <Switch>
-                            <Route path="/meteoboard" component={Meteoboard}/>
+        <Footer/>
 
-                            <Redirect to="/meteoboard"/>
-                        </Switch>
-                    </ErrorBoundary>
-            </div>
-        )
-    }
-}
+        <Console/>
+    </ErrorBoundary>
+);
 
 export default BaseComponent;

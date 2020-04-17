@@ -3,9 +3,12 @@ import EmployeesComponent from '../components/EmployeesComponent';
 import {createData, editData, deleteData} from "../actions/apiRequests";
 
 
-const mapStateToProps = ({employees}) => {
+const mapStateToProps = ({employees, stations, meteoposts, filters}) => {
     return {
-        employees
+        employees,
+        stations,
+        meteoposts,
+        pageSize: filters.pageSize
     }
 };
 

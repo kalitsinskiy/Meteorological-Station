@@ -10,14 +10,14 @@ const indicators = (state = defaultState, action) =>{
         }
         case 'EDIT_INDICATOR_FULFILLED': {
             return action.payload ? state.map(item => {
-                if (item.timestamp === action.payload.timestamp) {
+                if (item.device === action.payload.device) {
                     return Object.assign({}, item, action.payload)
                 }
                 return item;
             }) : state
         }
         case 'DELETE_INDICATOR_FULFILLED': {
-            return action.payload ? state.filter(item => action.payload.timestamp !== item.timestamp) : state
+            return action.payload ? state.filter(item => action.payload.device !== item.device) : state
         }
 
         default:

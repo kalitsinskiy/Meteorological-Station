@@ -1,0 +1,46 @@
+.console_wrapper
+  position: fixed
+  bottom: 0
+  z-index: 100
+  width: 100%
+  .wrapper_height
+    div
+      .console
+        border-radius: 0 !important
+        div[name="react-console-emulator__content"]
+          height: auto !important
+          padding: 30px !important
+          input[name="react-console-emulator__input"], span[name="react-console-emulator__promptLabel"]
+            color: #ffffff !important
+
+  .console_btn
+    height: 30px
+    padding: 5px
+    width: 120px
+    text-align: center
+    font-size: 1rem
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif
+    background-color: rgb(33, 33, 33)
+    border-top-left-radius: 10px
+    border: none
+    color: #fff
+    position: absolute
+    right: 0
+    outline: none
+    top: -30px
+    z-index: 100
+    &:hover
+      cursor: pointer
+    &.visible
+      &:after,&:before
+        content: ""
+        position: absolute
+        width: 2px
+        height: 20px
+        background-color: red
+        top: 4px
+        left: 13px
+      &:before
+        transform: rotate(45deg)
+      &:after
+        transform: rotate(135deg)

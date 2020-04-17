@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {memo} from 'react';
 import MaterialTable from 'material-table';
-import {isEqual} from 'lodash';
+import {isEmpty, isEqual} from 'lodash';
 import {toastr} from 'react-redux-toastr';
+import arrayToObject from "../helpers/arrayToObject";
 
 const EmployeesComponent = (props) =>{
     const {
         employees,
+        stations,
+        meteoposts,
         createData,
         editData,
-        deleteData
+        deleteData,
+        pageSize
     } = props;
 
     const columns = [
@@ -32,11 +36,12 @@ const EmployeesComponent = (props) =>{
         {
             title: 'Meteo post',
             field: 'meteo_post',
+            lookup: isEmpty(meteoposts) ? {} : arrayToObject(meteoposts, "name"),
         },
         {
             title: 'Meteo station',
             field: 'meteo_station',
-            filterPlaceholder: 'Enter meteo post'
+            lookup: isEmpty(stations) ? {} : arrayToObject(stations, "name"),
         },
     ];
 
@@ -56,8 +61,8 @@ const EmployeesComponent = (props) =>{
             columns={columns}
             data={employees}
             options={{
-                pageSize: 10,
-                pageSizeOptions: [5, 10, /*20*/],
+                pageSize,
+                pageSizeOptions: [5, 8, 10],
                 toolbar: true,
                 paging: true,
                 actionsColumnIndex: -1,
@@ -66,9 +71,8 @@ const EmployeesComponent = (props) =>{
             editable={{
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
-                        console.log(newData);
                         validateData(newData, () =>{
-                            createData({table:"meteo_posts"}, newData, "METEO_POSTS");
+                            createData({table:"employees"}, newData, "EMPLOYEE");
                             resolve();
                         }, reject)
                     }),
@@ -78,14 +82,14 @@ const EmployeesComponent = (props) =>{
                             reject();
                         }else {
                             validateData(newData, () =>{
-                                editData({table: "meteo_posts", key: "name"}, newData, "METEO_POSTS");
+                                editData({table: "employees", key: "full_name"}, newData, "EMPLOYEE");
                                 resolve()
                             }, reject)
                         }
                     }),
                 onRowDelete: data =>
                     new Promise(resolve => {
-                        deleteData({table:"meteo_posts", key:"name", value: data.name}, "METEO_POSTS");
+                        deleteData({table:"employees", key:"full_name", value: data.full_name}, "EMPLOYEE");
                         resolve();
                     }),
             }}
@@ -94,4 +98,4 @@ const EmployeesComponent = (props) =>{
 };
 
 
-export default EmployeesComponent
+export default memo(EmployeesComponent)

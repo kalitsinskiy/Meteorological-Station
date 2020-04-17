@@ -8,10 +8,10 @@ const employees = (state = defaultState, action) =>{
         case 'GET_METEO_POSTS_AND_EMPLOYEES_FULFILLED': {
             return action.payload.employees
         }
-        case 'CREATE_EMPLOYEES_FULFILLED': {
+        case 'CREATE_EMPLOYEE_FULFILLED': {
             return action.payload ? [...state, action.payload] : state
         }
-        case 'EDIT_EMPLOYEES_FULFILLED': {
+        case 'EDIT_EMPLOYEE_FULFILLED': {
             return action.payload ? state.map(item => {
                 if (item.full_name === action.payload.full_name) {
                     return Object.assign({}, item, action.payload)
@@ -19,7 +19,7 @@ const employees = (state = defaultState, action) =>{
                 return item;
             }) : state
         }
-        case 'DELETE_EMPLOYEES_FULFILLED': {
+        case 'DELETE_EMPLOYEE_FULFILLED': {
             return action.payload ? state.filter(item => action.payload.full_name !== item.full_name) : state
         }
 

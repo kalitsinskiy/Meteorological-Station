@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 
 import {setWizardNavigation} from "../actions/filters";
 
+import "../styles/Flipper.sass"
+
 
 const Flipper = ({first, second, setWizardNavigation, wizNav}) => {
     const [side, setSide] = useState("front");
@@ -12,7 +14,7 @@ const Flipper = ({first, second, setWizardNavigation, wizNav}) => {
         if (wizNav.location !== first.location && wizNav.location !== second.location){
             setSide("front")
         }
-    }, [wizNav]);
+    }, [wizNav, first.location, second.location]);
 
     return (
         <Fragment>

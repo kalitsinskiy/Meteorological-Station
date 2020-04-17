@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {connect} from "react-redux";
 import ReactTooltip from "react-tooltip";
 
@@ -8,8 +8,22 @@ import "../styles/Nav.sass";
 
 import {setWizardNavigation} from "../actions/filters";
 
-const Nav = ({wizNav, previousStep, nextStep}) => {
+const links = [
+    'Meteo stations',
+    'Meteo posts/Employees',
+    'Meteo grounds/Transport',
+    'Meteo poles',
+    'Devices',
+    'Indicators'
+];
+
+const Nav = ({wizNav, previousStep, nextStep, goToStep, currentStep}) => {
     const {prevDisabled, prevHidden, nextDisabled, nextHidden, nextMessage = null} = wizNav;
+
+    useEffect(() =>{
+        const logo = document.getElementById("logo");
+        logo.addEventListener("click",() => goToStep(1));
+    }, [goToStep]);
 
     const isHidden = () => ["employees", "transport", "indicators"].some(it => it === wizNav.location);
 
@@ -40,6 +54,24 @@ const Nav = ({wizNav, previousStep, nextStep}) => {
                 backgroundColor="#f50057">
                 <span>{nextMessage}</span>
             </ReactTooltip>
+
+            <div className="footer_nav">
+                {links.map((it, index)=> {
+                    const step = index + 1;
+                    const isActive = currentStep >= step || (step === currentStep + 1 && !nextDisabled);
+
+                    return(
+                        <button
+                            className="footer_link"
+                            key={step}
+                            onClick={() => isActive && goToStep(step)}
+                            disabled={!isActive}
+                        >
+                            {it}
+                        </button>
+                    )
+                })}
+            </div>
 
         </Fragment>
     );

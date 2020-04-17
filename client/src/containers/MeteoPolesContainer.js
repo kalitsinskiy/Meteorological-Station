@@ -3,11 +3,12 @@ import MeteoPolesComponent from '../components/MeteoPolesComponent';
 import {createData, editData, deleteData} from "../actions/apiRequests";
 import {setWizardNavigation} from "../actions/filters";
 
-
-const mapStateToProps = ({meteopoles, filters}) => {
+const mapStateToProps = ({meteopoles, meteogrounds, filters}) => {
     return {
         meteopoles,
-        wizNav: filters.wizNav
+        meteogrounds,
+        wizNav: filters.wizNav,
+        pageSize: filters.pageSize
     }
 };
 

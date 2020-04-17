@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {memo} from 'react';
 import MaterialTable from 'material-table';
 import {isEqual, isEmpty} from 'lodash';
 import {toastr} from 'react-redux-toastr';
+import arrayToObject from "../helpers/arrayToObject";
 
 const MeteoPolesComponent = (props) =>{
     const {
         meteopoles,
+        meteogrounds,
         createData,
         editData,
         deleteData,
         setWizardNavigation,
         wizNav,
-        setMeteoPolesOptions
+        setMeteoPolesOptions,
+        pageSize
     } = props;
 
     const columns = [
@@ -34,6 +37,7 @@ const MeteoPolesComponent = (props) =>{
         {
             title: 'Meteo ground',
             field: 'meteo_ground',
+            lookup: isEmpty(meteogrounds) ? {} : arrayToObject(meteogrounds, "name"),
         }
     ];
 
@@ -75,8 +79,8 @@ const MeteoPolesComponent = (props) =>{
             onRowClick={onRowClick}
             onSelectionChange={onSelectionChange}
             options={{
-                pageSize: 10,
-                pageSizeOptions: [5, 10, /*20*/],
+                pageSize,
+                pageSizeOptions: [5, 8, 10],
                 toolbar: true,
                 paging: true,
                 actionsColumnIndex: -1,
@@ -113,4 +117,4 @@ const MeteoPolesComponent = (props) =>{
 };
 
 
-export default MeteoPolesComponent
+export default memo(MeteoPolesComponent)

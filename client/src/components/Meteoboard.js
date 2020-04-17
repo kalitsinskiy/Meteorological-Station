@@ -152,10 +152,31 @@ const Meteoboard = (props) => {
                 }
             )
         }
+        else if (activeStep === 1) {
+            setWizardNavigation({
+                    location: "meteo_stations",
+                    nextDisabled: false,
+                    nextHidden: false,
+                    prevDisabled: true,
+                    prevHidden: true,
+                    nextMessage: "Choose some stations"
+                }
+            )
+        }
+        else if (previousStep > activeStep) {
+            setWizardNavigation({
+                    nextDisabled: false,
+                    nextHidden: false,
+                    prevDisabled: false,
+                    prevHidden: false,
+                    nextMessage: "Choose some item from list"
+                }
+            )
+        }
     };
 
     return (
-        <StepWizard className="wizard" nav={<Nav/>} onStepChange={onStepChange}>
+        <StepWizard className="main-wrapper" nav={<Nav/>} onStepChange={onStepChange}>
             <StationsContainer setStationsOptions={setStationsOptions}/>
 
             <Flipper

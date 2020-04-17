@@ -6,8 +6,6 @@ const meteopoles = (state = defaultState, action) =>{
             return action.payload
         }
         case 'CREATE_METEO_POLE_FULFILLED': {
-            console.log(state);
-            console.log(action.payload);
             return action.payload ? [...state, action.payload] : state
         }
         case 'EDIT_METEO_POLE_FULFILLED': {

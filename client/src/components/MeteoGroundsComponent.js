@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {memo} from 'react';
 import MaterialTable from 'material-table';
 import {isEqual, isEmpty} from 'lodash';
 import {toastr} from 'react-redux-toastr';
-import queryOptionsParser from "../helpers/queryOptionsParser";
+import arrayToObject from "../helpers/arrayToObject";
 
 const MeteoGroundsComponent = (props) =>{
     const {
@@ -12,7 +12,9 @@ const MeteoGroundsComponent = (props) =>{
         deleteData,
         setWizardNavigation,
         wizNav,
-        setMeteoGroundsOptions
+        setMeteoGroundsOptions,
+        meteoposts,
+        pageSize
     } = props;
 
     const columns = [
@@ -29,7 +31,8 @@ const MeteoGroundsComponent = (props) =>{
         },
         {
             title: 'Meteo post',
-            field: 'meteo_post'
+            field: 'meteo_post',
+            lookup: isEmpty(meteoposts) ? {} : arrayToObject(meteoposts, "name"),
         },
         {
             title: 'Surface',
@@ -57,7 +60,7 @@ const MeteoGroundsComponent = (props) =>{
         }
     };
 
-    const onSelectionChange = (all, cur) =>{
+    const onSelectionChange = all =>{
         if (!isEmpty(all)){
             const groundsNames = all.map(it => it.name).join();
 
@@ -91,8 +94,8 @@ const MeteoGroundsComponent = (props) =>{
             onRowClick={onRowClick}
             onSelectionChange={onSelectionChange}
             options={{
-                pageSize: 10,
-                pageSizeOptions: [5, 10, /*20*/],
+                pageSize,
+                pageSizeOptions: [5, 8, 10],
                 toolbar: true,
                 paging: true,
                 actionsColumnIndex: -1,
@@ -102,7 +105,6 @@ const MeteoGroundsComponent = (props) =>{
             editable={{
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
-                        console.log(newData);
                         validateData(newData, () =>{
                             createData({table:"meteo_grounds"}, newData, "METEO_GROUND");
                             resolve();
@@ -130,4 +132,4 @@ const MeteoGroundsComponent = (props) =>{
 };
 
 
-export default MeteoGroundsComponent
+export default memo(MeteoGroundsComponent)
