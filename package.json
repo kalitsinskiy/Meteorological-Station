@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f .env.production node index.js",
-    "dev": "env-cmd -f .env.development nodemon index.js"
+    "db4free": "env-cmd -f .env.db4free node index.js",
+    "start": "env-cmd -f .env.freemysqlhosting node index.js",
+    "dev": "env-cmd -f .env.local nodemon index.js"
   },
   "author": "",
   "license": "ISC",
