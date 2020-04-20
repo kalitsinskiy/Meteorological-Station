@@ -13,7 +13,8 @@ const MeteoPostsComponent = (props) =>{
         deleteData,
         setWizardNavigation,
         wizNav,
-        setDevicesOptions
+        setDevicesOptions,
+        isAdmin
     } = props;
 
     const columns = [
@@ -97,7 +98,7 @@ const MeteoPostsComponent = (props) =>{
                 filtering: true,
                 selection: true
             }}
-            editable={{
+            editable={isAdmin ? {
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         validateData(newData, () =>{
@@ -121,7 +122,7 @@ const MeteoPostsComponent = (props) =>{
                         deleteData({table:"devices", key:"name", value: data.name}, "DEVICE");
                         resolve();
                     }),
-            }}
+            } : {}}
         />
     );
 };

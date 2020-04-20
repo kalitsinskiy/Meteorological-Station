@@ -19,6 +19,9 @@ const indicators = (state = defaultState, action) =>{
         case 'DELETE_INDICATOR_FULFILLED': {
             return action.payload ? state.filter(item => action.payload.device !== item.device) : state
         }
+        case 'LOGOUT': {
+            return defaultState
+        }
 
         default:
             return state;

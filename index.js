@@ -34,8 +34,10 @@ app.get("/access_req", (req, res) => {
     const pass = req.query.pass;
 
     if (pass === process.env.DB_PASS) {
-        res.json("success")
-    }else {
+        res.json({error: false, isAdmin: true})
+    }else if(pass === "1111"){
+        res.json({error: false, isAdmin: false})
+    } else {
         res.json({
             error: true,
             status:"Failed",

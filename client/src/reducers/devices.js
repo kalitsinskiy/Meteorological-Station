@@ -19,6 +19,9 @@ const devices = (state = defaultState, action) =>{
         case 'DELETE_DEVICE_FULFILLED': {
             return action.payload ? state.filter(item => action.payload.name !== item.name) : state
         }
+        case 'LOGOUT': {
+            return defaultState
+        }
 
         default:
             return state;

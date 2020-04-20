@@ -22,6 +22,9 @@ const transport = (state = defaultState, action) =>{
         case 'DELETE_TRANSPORT_FULFILLED': {
             return action.payload ? state.filter(item => action.payload.number !== item.number) : state
         }
+        case 'LOGOUT': {
+            return defaultState
+        }
 
         default:
             return state;

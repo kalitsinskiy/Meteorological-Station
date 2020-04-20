@@ -11,7 +11,8 @@ const TransportComponent = (props) =>{
         createData,
         editData,
         deleteData,
-        pageSize
+        pageSize,
+        isAdmin
     } = props;
 
     const columns = [
@@ -77,7 +78,7 @@ const TransportComponent = (props) =>{
                 actionsColumnIndex: -1,
                 filtering: true
             }}
-            editable={{
+            editable={isAdmin ? {
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         validateData(newData, () =>{
@@ -101,7 +102,7 @@ const TransportComponent = (props) =>{
                         deleteData({table:"transport", key:"number", value: data.name}, "TRANSPORT");
                         resolve();
                     }),
-            }}
+            } : {}}
         />
     );
 };

@@ -14,7 +14,8 @@ const MeteoPolesComponent = (props) =>{
         setWizardNavigation,
         wizNav,
         setMeteoPolesOptions,
-        pageSize
+        pageSize,
+        isAdmin
     } = props;
 
     const columns = [
@@ -87,7 +88,7 @@ const MeteoPolesComponent = (props) =>{
                 filtering: true,
                 selection: true
             }}
-            editable={{
+            editable={isAdmin ? {
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         validateData(newData, () =>{
@@ -111,7 +112,7 @@ const MeteoPolesComponent = (props) =>{
                         deleteData({table:"meteo_poles", key:"name", value: data.name}, "METEO_POLE");
                         resolve();
                     }),
-            }}
+            } : {}}
         />
     );
 };

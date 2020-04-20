@@ -7,7 +7,8 @@ const mapStateToProps = ({indicators, devices, filters}) => {
     return {
         indicators,
         devices,
-        pageSize: filters.pageSize
+        pageSize: filters.pageSize,
+        isAdmin: filters.isAdmin,
     }
 };
 

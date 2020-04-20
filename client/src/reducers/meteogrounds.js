@@ -22,6 +22,9 @@ const meteogrounds = (state = defaultState, action) =>{
         case 'DELETE_METEO_GROUND_FULFILLED': {
             return action.payload ? state.filter(item => action.payload.name !== item.name) : state
         }
+        case 'LOGOUT': {
+            return defaultState
+        }
 
         default:
             return state;

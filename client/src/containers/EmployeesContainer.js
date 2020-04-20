@@ -8,7 +8,8 @@ const mapStateToProps = ({employees, stations, meteoposts, filters}) => {
         employees,
         stations,
         meteoposts,
-        pageSize: filters.pageSize
+        pageSize: filters.pageSize,
+        isAdmin: filters.isAdmin,
     }
 };
 

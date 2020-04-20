@@ -155,8 +155,16 @@ export const login = (pass = "") => {
                 return false
             }
 
-            Cookies.set('isDBAvailable', true, {expires: 1});
-            return true
+            Cookies.set('isDBAvailable', true, {expires: 14});
+
+            if (response.isAdmin) {
+                Cookies.set('isAdmin', true, {expires: 14});
+            }
+
+            return {
+                access: true,
+                isAdmin: response.isAdmin,
+            }
         });
 
     return (dispatch) => {

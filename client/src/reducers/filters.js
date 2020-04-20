@@ -2,6 +2,7 @@ import Cookies from "js-cookie"
 
 const defaultState = {
     isDBAvailable: !!Cookies.getJSON("isDBAvailable"),
+    isAdmin: !!Cookies.getJSON("isAdmin"),
     pageSize: (window.innerWidth || 1920) > 1366 ? 8 : 5,
     wizNav:{
         location: "meteo_stations",
@@ -17,7 +18,8 @@ const filters = (state = defaultState, action) =>{
     switch (action.type) {
         case 'LOGIN_FULFILLED': {
             return Object.assign({}, state, {
-                isDBAvailable: action.payload
+                isDBAvailable: action.payload.access,
+                isAdmin: action.payload.isAdmin,
             });
         }
         case 'SET_WIZARD_NAVIGATION': {
@@ -27,8 +29,10 @@ const filters = (state = defaultState, action) =>{
         }
         case 'LOGOUT': {
             Cookies.remove("isDBAvailable");
+            Cookies.remove("isAdmin");
             return Object.assign({}, state, {
-                isDBAvailable: false
+                isDBAvailable: false,
+                isAdmin: false,
             });
         }
 

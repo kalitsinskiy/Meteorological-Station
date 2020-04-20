@@ -9,7 +9,8 @@ const mapStateToProps = ({stations, meteoposts, filters}) => {
         stations,
         meteoposts,
         wizNav: filters.wizNav,
-        pageSize: filters.pageSize
+        pageSize: filters.pageSize,
+        isAdmin: filters.isAdmin,
     }
 };
 

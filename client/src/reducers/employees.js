@@ -22,6 +22,9 @@ const employees = (state = defaultState, action) =>{
         case 'DELETE_EMPLOYEE_FULFILLED': {
             return action.payload ? state.filter(item => action.payload.full_name !== item.full_name) : state
         }
+        case 'LOGOUT': {
+            return defaultState
+        }
 
         default:
             return state;

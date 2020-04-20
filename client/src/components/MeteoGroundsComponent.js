@@ -14,7 +14,8 @@ const MeteoGroundsComponent = (props) =>{
         wizNav,
         setMeteoGroundsOptions,
         meteoposts,
-        pageSize
+        pageSize,
+        isAdmin
     } = props;
 
     const columns = [
@@ -102,7 +103,7 @@ const MeteoGroundsComponent = (props) =>{
                 filtering: true,
                 selection: true
             }}
-            editable={{
+            editable={isAdmin ? {
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         validateData(newData, () =>{
@@ -126,7 +127,7 @@ const MeteoGroundsComponent = (props) =>{
                         deleteData({table:"meteo_grounds", key:"name", value: data.name}, "METEO_GROUND");
                         resolve();
                     }),
-            }}
+            } : {}}
         />
     );
 };

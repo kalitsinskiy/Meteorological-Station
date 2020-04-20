@@ -11,7 +11,8 @@ const IndicatorsComponent = (props) =>{
         createData,
         editData,
         deleteData,
-        pageSize
+        pageSize,
+        isAdmin
     } = props;
 
     const columns = [
@@ -67,7 +68,7 @@ const IndicatorsComponent = (props) =>{
                 actionsColumnIndex: -1,
                 filtering: true
             }}
-            editable={{
+            editable={isAdmin ? {
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         validateData(newData, () =>{
@@ -91,7 +92,7 @@ const IndicatorsComponent = (props) =>{
                         deleteData({table:"indicators", key:"timestamp", value: data.timestamp}, "INDICATOR");
                         resolve();
                     }),
-            }}
+            } : {}}
         />
     );
 };

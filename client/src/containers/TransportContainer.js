@@ -9,7 +9,8 @@ const mapStateToProps = ({transport, filters, meteoposts}) => {
         transport,
         meteoposts,
         wizNav: filters.wizNav,
-        pageSize: filters.pageSize
+        pageSize: filters.pageSize,
+        isAdmin: filters.isAdmin,
     }
 };
 

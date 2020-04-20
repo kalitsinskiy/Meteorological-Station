@@ -15,7 +15,8 @@ const StationsComponent = (props) =>{
         setWizardNavigation,
         wizNav,
         setStationsOptions,
-        pageSize
+        pageSize,
+        isAdmin
     } = props;
 
     useEffect(() => getData("meteo_stations", "METEO_STATIONS"),[getData]);
@@ -115,7 +116,7 @@ const StationsComponent = (props) =>{
                 filtering: true,
                 selection: true
             }}
-            editable={{
+            editable={isAdmin ? {
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         validateData(newData, () =>{
@@ -139,7 +140,7 @@ const StationsComponent = (props) =>{
                         deleteData({table:"meteo_stations", key:"name", value: data.name}, "METEO_STATION");
                         resolve();
                     }),
-            }}
+            } : {}}
         />
     );
 };

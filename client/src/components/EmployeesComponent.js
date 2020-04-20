@@ -12,7 +12,8 @@ const EmployeesComponent = (props) =>{
         createData,
         editData,
         deleteData,
-        pageSize
+        pageSize,
+        isAdmin
     } = props;
 
     const columns = [
@@ -68,7 +69,7 @@ const EmployeesComponent = (props) =>{
                 actionsColumnIndex: -1,
                 filtering: true
             }}
-            editable={{
+            editable={isAdmin ? {
                 onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                         validateData(newData, () =>{
@@ -92,7 +93,7 @@ const EmployeesComponent = (props) =>{
                         deleteData({table:"employees", key:"full_name", value: data.full_name}, "EMPLOYEE");
                         resolve();
                     }),
-            }}
+            } : {}}
         />
     );
 };

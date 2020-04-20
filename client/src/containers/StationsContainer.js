@@ -8,7 +8,8 @@ const mapStateToProps = ({stations, filters}) => {
     return {
         stations,
         wizNav: filters.wizNav,
-        pageSize: filters.pageSize
+        pageSize: filters.pageSize,
+        isAdmin: filters.isAdmin,
     }
 };
 
