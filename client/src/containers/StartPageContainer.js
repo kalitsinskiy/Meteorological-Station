@@ -4,7 +4,7 @@ import {login} from "../actions/apiRequests"
 
 
 const StartPage = ({login}) =>{
-    const [pass, setPass] = useState("");
+    const [pass, setPass] = useState("qwer1234");
 
     const handleLogin = (e) =>{
         e.preventDefault();
@@ -28,6 +28,7 @@ const StartPage = ({login}) =>{
                     <input
                         className="input"
                         type="password"
+                        value={pass}
                         onChange={e =>setPass(e.target.value)}
                     />
 
