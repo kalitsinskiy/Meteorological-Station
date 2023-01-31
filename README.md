@@ -1,1 +1,1 @@
-https://mete0rologist.firebaseapp.com/
+https://mete0rologist.firebaseapp.com
